@@ -152,7 +152,7 @@ $userId = $_SESSION['id'];
             }
 
             if (isValid) {
-                const formData = $('#checkout-form').serialize() + '&action=process_checkout'; // Append action to form data
+                const formData = $('#checkout-form').serialize() + '&action=process_checkout'; 
 
                 $.ajax({
                     url: 'login_project1.php',
