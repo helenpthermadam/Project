@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700,900');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif !important;
+    position: relative; 
+}
+
+body::before {
+    content: '';
+    position: fixed; 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('books.jpg') no-repeat center center fixed;
+    background-size: cover; 
+    filter: blur(5px); 
+    z-index: 1; 
+}
+
+form {
+    border: 2px solid black; 
+    width: 30%;
+    background-color: white; 
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+    position: relative;
+    z-index: 2; 
+}
+
+.btn-primary {
+    width: 100%;
+    border: none; 
+    /* border-radius: 50px; Rounded corners */
+    /* background: slateblue;  */
+    color: white;
+    padding: 10px; 
+    cursor: pointer; 
+}
+
+.input-line {
+    position: relative; 
+    margin-bottom: 15px; 
+}
+
+.form-control {
+    color: rgba(0, 0, 0, .87); 
+    border: 1px solid #ccc; 
+    border-radius: 5px;
+    padding: 10px; 
+    width: 100%; 
+    box-shadow: none !important; 
+}
+
+h4 {
+    font-size: 2rem !important; 
+    /* font-weight: 700;  */
+}
+
+.error-message {
+    color: red; 
+    font-size: 0.9rem; 
+}
+
+@media only screen and (max-width: 600px) {
+    form {
+        width: 100% !important; 
+    }
+}
