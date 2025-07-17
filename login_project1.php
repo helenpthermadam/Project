@@ -155,16 +155,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    else if ($_POST['action'] == 'search_books') {
-        $query = $_POST['query'];
-    $stmt = $conn->prepare("SELECT id, title, author, price FROM books WHERE title LIKE :query OR author LIKE :query");
-    $stmt->execute(['query' => '%' . $query . '%']);
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // else if ($_POST['action'] == 'search_books') {
+    //     $query = $_POST['query'];
+    // $stmt = $conn->prepare("SELECT id, title, author, price FROM books WHERE title LIKE :query OR author LIKE :query");
+    // $stmt->execute(['query' => '%' . $query . '%']);
+    // $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    echo json_encode($result);
-    exit;
+    // echo json_encode($result);
+    // exit;
 
-    }
+    // }
 
 
 
