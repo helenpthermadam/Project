@@ -243,12 +243,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bindParam(':quantity', $quantity); 
             $stmt->execute();
             }
-            $newStock = $stock - $quantity;
+            // $newStock = $stock - $quantity;
 
-            $updateStockStmt = $conn->prepare("UPDATE books SET stock = :stock WHERE id = :book_id");
-            $updateStockStmt->bindParam(':stock', $newStock);
-            $updateStockStmt->bindParam(':book_id', $bookId);
-            $updateStockStmt->execute();
+            // $updateStockStmt = $conn->prepare("UPDATE books SET stock = :stock WHERE id = :book_id");
+            // $updateStockStmt->bindParam(':stock', $newStock);
+            // $updateStockStmt->bindParam(':book_id', $bookId);
+            // $updateStockStmt->execute();
             echo json_encode(['status' => 'success', 'message' => 'Book added to cart']);
     }
 
@@ -439,22 +439,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES (:order_id, :book_id, :quantity, :price)
                 ");
 
-            $updateStockStmt = $conn->prepare("
-                UPDATE books SET stock = stock - :quantity WHERE id = :book_id
-            ");
-
-           foreach ($cartItems as $item) {
-   
+            
+            foreach ($cartItems as $item) {
                 error_log("Processing book ID: {$item['book_id']}, Quantity: {$item['quantity']}");
-    
+                // $updateStockStmt = $conn->prepare("
+                //     UPDATE books SET stock = stock - :quantity WHERE id = :book_id
+                // ");
+
+           
                 $orderDetailStmt->bindParam(':order_id', $orderId);
                 $orderDetailStmt->bindParam(':book_id', $item['book_id']);
                 $orderDetailStmt->bindParam(':quantity', $item['quantity']);
                 $orderDetailStmt->bindParam(':price', $item['price']);
                 $orderDetailStmt->execute();
-    
-                error_log("Updating stock for book ID {$item['book_id']} by {$item['quantity']}");
-                $updateStockStmt->bindParam(':quantity', $item['quantity']);
+                
+                // $currentStockStmt = $conn->prepare("SELECT stock FROM books WHERE id = :book_id");
+                // $currentStockStmt->bindParam(':book_id', $item['book_id']);
+                // $currentStockStmt->execute();
+                // $currentStock = $currentStockStmt->fetchColumn();
+                
+                // $newStock = $currentStock - $item['quantity'];
+                // error_log("Updating stock for book ID {$item['book_id']} to {$newStock}");
+                // error_log("Current stock for book ID {$item['book_id']} is {$currentStock}. Reducing by {$item['quantity']} to get new stock {$newStock}.");
+                
+                $newStock = $item['stock'] - $item['quantity'];
+                $updateStockStmt = $conn->prepare("
+                UPDATE books SET stock = :new_stock WHERE id = :book_id
+                ");
+                // error_log("Updating stock for book ID {$item['book_id']} by {$item['quantity']}");
+                $updateStockStmt->bindParam(':new_stock', $newStock); 
                 $updateStockStmt->bindParam(':book_id', $item['book_id']);
                 $updateStockStmt->execute();
             }
@@ -468,7 +481,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo json_encode(['status' => 'success', 'order_id' => $orderId]);
             exit;
 
-            } catch (Exception $e) {
+        } catch (Exception $e) {
                 $conn->rollBack();
                 echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
             }
@@ -506,6 +519,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 }
+
+
+    $conn = null; 
+
+?>
 
 
     $conn = null; 
